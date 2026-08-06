@@ -1,11 +1,13 @@
 #pragma once
+#ifndef Player_H
+#define Player_H
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <list>
 #include <unordered_map>
 
 #include "Bullet.h"
-
+#
 
 class Player : public sf::Transformable {
 	private:
@@ -37,7 +39,7 @@ class Player : public sf::Transformable {
 		void turnLeft(float deltaTime);
 		void turnRight(float deltaTime);
 		void goForward(float deltaTime);
-
+		void decelerate(float deltaTime);
 		void updateState(float deltaTime);
 
 		void boostSpeed(float deltaTime);
@@ -48,3 +50,5 @@ class Player : public sf::Transformable {
 		void pruneBullets();
 		std::list<Bullet>& getBullets();
 };
+
+#endif

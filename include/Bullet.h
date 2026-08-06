@@ -1,3 +1,7 @@
+#pragma once
+#ifndef BULLET_H
+#define BULLET_H
+
 #include "SFML/Graphics/CircleShape.hpp"
 #include "SFML/Graphics/RectangleShape.hpp"
 
@@ -17,3 +21,5 @@ public:
 	bool goForward(float deltaTime);
 	sf::CircleShape& getShape();
 };
+
+#endif

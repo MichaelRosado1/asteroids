@@ -36,6 +36,10 @@ void Player::goForward(float deltaTime) {
 	speed *= std::pow(DAMPING_RATE, deltaTime);
 }
 
+void Player::decelerate(float deltaTime) {
+	speed = std::max((speed - SPEED_INCREASE_RATE * deltaTime), 0.f);
+}
+
 void Player::updateState(float deltaTime) {
 	goForward(deltaTime);
 	updateBullets(deltaTime);

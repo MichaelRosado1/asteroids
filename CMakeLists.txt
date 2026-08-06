@@ -30,6 +30,7 @@ enable_testing()
 add_library(asteroids_core
     src/Player.cpp
     src/Bullet.cpp
+        src/Asteroid.cpp
 )
 
 target_compile_features(asteroids_core PUBLIC
@@ -54,6 +55,8 @@ target_link_libraries(asteroids_core PUBLIC
 # Main game executable
 add_executable(asteroids
     src/main.cpp
+        include/Asteroid.h
+        src/Asteroid.cpp
 )
 
 target_compile_features(asteroids PRIVATE

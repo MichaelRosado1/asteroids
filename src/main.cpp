@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SFML/Window.hpp>
 #include "Player.h"
+#include "Asteroid.h"
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode({800, 600}), "My window");
@@ -9,6 +10,7 @@ int main() {
 	Player player = Player(screenCenter);		
 
 	player.setPosition(screenCenter);
+	std::vector<Asteroid> asteroids;
 
 	sf::Clock clock;
 	while (window.isOpen()) {
@@ -20,6 +22,8 @@ int main() {
 			if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
     			if (keyPressed->code == sf::Keyboard::Key::Space) {
 					player.shoot();
+				} else if (keyPressed->code == sf::Keyboard::Key::R) {
+					asteroids.emplace_back();
 				}
 			}
 		}
@@ -35,14 +39,25 @@ int main() {
             player.turnRight(deltaTime);
         }
 
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
+			player.decelerate(deltaTime);
+		}
+
 		player.updateState(deltaTime);
 		window.clear();
 		window.draw(player.getPlayerShape());
 		std::list<Bullet>& bullets = player.getBullets();
 
+
 		for (auto& bullet : bullets) {
 			window.draw(bullet.getShape());
 		}
+
+		for (auto& asteroid : asteroids) {
+			asteroid.move(deltaTime);
+			asteroid.draw(window);
+		}
+
 
 		window.display();
 	}
