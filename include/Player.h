@@ -18,10 +18,10 @@ class Player : public sf::Transformable {
 
 		sf::CircleShape shape;	
 		float speed;	
-
+		long long iteration_count = 0;
 		std::list<Bullet> bullets;
 		std::unordered_map<int, std::list<Bullet>::iterator> bullet_map;
-		
+		void updateBullets(float deltaTime);
 	public:
 		Player(const sf::Vector2f& screenCenter);
 
@@ -38,10 +38,13 @@ class Player : public sf::Transformable {
 		void turnRight(float deltaTime);
 		void goForward(float deltaTime);
 
+		void updateState(float deltaTime);
+
 		void boostSpeed(float deltaTime);
 
 		void setPlayerPosition(const sf::Vector2f& position);
 
 		void shoot();
 		void pruneBullets();
+		std::list<Bullet>& getBullets();
 };

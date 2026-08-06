@@ -36,15 +36,46 @@ void Player::goForward(float deltaTime) {
 	speed *= std::pow(DAMPING_RATE, deltaTime);
 }
 
+void Player::updateState(float deltaTime) {
+	goForward(deltaTime);
+	updateBullets(deltaTime);
+	iteration_count++;
+}
+
+void Player::updateBullets(float deltaTime) {
+	std::vector<int> bulletsToRemove;
+	for (auto& bullet : bullets) {
+		if (!bullet.goForward(deltaTime)) {
+			bulletsToRemove.push_back(bullet.getId());
+		}
+	}
+
+	for (std::size_t i = 0; i < bulletsToRemove.size(); i++) {
+		auto it =  bullet_map.find(bulletsToRemove[i]);
+		if (it != bullet_map.end()) {
+			auto& [id, list_it] = *it;
+			bullets.erase(list_it);
+			bullet_map.erase(it);
+		}
+
+	}
+
+	pruneBullets();
+}
+
+
 void Player::setPlayerPosition(const sf::Vector2f& position) {
 	shape.setPosition(position);
 }
 
 void Player::shoot() {
 
-	bullet_map[new_bullet_id] = bullets.begin();
-	bullets.emplace_front(new_bullet_id++);
-	pruneBullets();
+	const float radians = shape.getRotation().asRadians();
+	const sf::Vector2f direction{std::sin(radians), -std::cos(radians)};
+
+	bullets.emplace_front(new_bullet_id, shape.getPosition(), direction);
+	bullet_map[new_bullet_id++] = bullets.begin();
+
 }
 
 void Player::pruneBullets() {
@@ -53,4 +84,9 @@ void Player::pruneBullets() {
 		bullets.pop_back();
 		bullet_map.erase(id);
 	}
+
+}
+
+std::list<Bullet>& Player::getBullets() {
+	return bullets;
 }

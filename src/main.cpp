@@ -35,10 +35,15 @@ int main() {
             player.turnRight(deltaTime);
         }
 
-
-		player.goForward(deltaTime);
+		player.updateState(deltaTime);
 		window.clear();
 		window.draw(player.getPlayerShape());
+		std::list<Bullet>& bullets = player.getBullets();
+
+		for (auto& bullet : bullets) {
+			window.draw(bullet.getShape());
+		}
+
 		window.display();
 	}
 	return 1;
