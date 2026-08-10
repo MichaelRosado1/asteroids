@@ -28,3 +28,13 @@ bool Bullet::goForward(float deltaTime) {
 	shape.move(direction * deltaTime * bulletSpeed);
 	return true;
 }
+
+bool Bullet::checkBulletCollision(std::vector<Asteroid>& asteroids) {
+	for (std::size_t i = 0; i < asteroids.size(); i++) {
+		if (shape.getGlobalBounds().findIntersection(asteroids[i].getShape().getGlobalBounds())) {
+			asteroids.erase(asteroids.begin() + i);
+			return true;
+		}
+	}
+	return false;
+}

@@ -4,7 +4,7 @@
 
 #include "SFML/Graphics/CircleShape.hpp"
 #include "SFML/Graphics/RectangleShape.hpp"
-
+#include "Asteroid.h"
 class Bullet : public sf::Transformable{
 private:
 	int bullet_id;
@@ -20,6 +20,7 @@ public:
 	int getId();
 	bool goForward(float deltaTime);
 	sf::CircleShape& getShape();
+	bool checkBulletCollision(std::vector<Asteroid>& asteroids);
 };
 
 #endif

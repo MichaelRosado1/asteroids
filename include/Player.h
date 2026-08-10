@@ -17,13 +17,13 @@ class Player : public sf::Transformable {
 		float TURN_SPEED = 250.0;
 		float DAMPING_RATE = 0.8f;
 		std::size_t MAX_ACTIVE_BULLETS = 10;
-
+		std::size_t lives = 3;
 		sf::CircleShape shape;	
 		float speed;	
 		long long iteration_count = 0;
 		std::list<Bullet> bullets;
 		std::unordered_map<int, std::list<Bullet>::iterator> bullet_map;
-		void updateBullets(float deltaTime);
+		void updateBullets(float deltaTime, std::vector<Asteroid>& asteroids);
 	public:
 		Player(const sf::Vector2f& screenCenter);
 
@@ -40,7 +40,7 @@ class Player : public sf::Transformable {
 		void turnRight(float deltaTime);
 		void goForward(float deltaTime);
 		void decelerate(float deltaTime);
-		void updateState(float deltaTime);
+		void updateState(float deltaTime, std::vector<Asteroid>& asteroids);
 
 		void boostSpeed(float deltaTime);
 
@@ -49,6 +49,9 @@ class Player : public sf::Transformable {
 		void shoot();
 		void pruneBullets();
 		std::list<Bullet>& getBullets();
+		// return true if player loses after getting hit
+		bool playerHit();
+
 };
 
 #endif

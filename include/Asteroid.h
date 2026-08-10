@@ -2,6 +2,7 @@
 // Created by Michael Rosado on 8/6/26.
 //
 
+#pragma once
 #ifndef ASTEROID_H
 #define ASTEROID_H
 #include "SFML/Graphics/CircleShape.hpp"

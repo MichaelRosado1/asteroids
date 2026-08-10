@@ -40,16 +40,19 @@ void Player::decelerate(float deltaTime) {
 	speed = std::max((speed - SPEED_INCREASE_RATE * deltaTime), 0.f);
 }
 
-void Player::updateState(float deltaTime) {
+void Player::updateState(float deltaTime, std::vector<Asteroid>& asteroids) {
 	goForward(deltaTime);
-	updateBullets(deltaTime);
+	updateBullets(deltaTime, asteroids);
 	iteration_count++;
 }
 
-void Player::updateBullets(float deltaTime) {
+void Player::updateBullets(float deltaTime, std::vector<Asteroid>& asteroids) {
 	std::vector<int> bulletsToRemove;
 	for (auto& bullet : bullets) {
 		if (!bullet.goForward(deltaTime)) {
+			bulletsToRemove.push_back(bullet.getId());
+		}
+		if (bullet.checkBulletCollision(asteroids)) {
 			bulletsToRemove.push_back(bullet.getId());
 		}
 	}
@@ -93,4 +96,12 @@ void Player::pruneBullets() {
 
 std::list<Bullet>& Player::getBullets() {
 	return bullets;
+}
+
+bool Player::playerHit() {
+	lives--;
+	if (lives == 0) {
+		return true;
+	}
+	return false;
 }
