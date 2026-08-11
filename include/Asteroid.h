@@ -14,6 +14,7 @@ class Asteroid : public sf::Transformable{
 private:
     sf::CircleShape shape;
     float asteroidSpeed;
+    float angle;
     sf::Vector2f direction;
     sf::RectangleShape debugBox;
 

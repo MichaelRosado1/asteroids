@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(const sf::Vector2f& screenCenter) : shape(sf::CircleShape(10.f, 3)) {
+Player::Player(const sf::Vector2f& screenCenter) : shape(sf::CircleShape(10.f, 3)), screenCenter(screenCenter) {
 	shape.setOrigin(shape.getGeometricCenter());
 	shape.setPosition(screenCenter);
 	speed = 0.0;
@@ -40,19 +40,21 @@ void Player::decelerate(float deltaTime) {
 	speed = std::max((speed - SPEED_INCREASE_RATE * deltaTime), 0.f);
 }
 
-void Player::updateState(float deltaTime, std::vector<Asteroid>& asteroids) {
+int Player::updateState(float deltaTime, std::vector<Asteroid>& asteroids) {
 	goForward(deltaTime);
-	updateBullets(deltaTime, asteroids);
-	iteration_count++;
+	int points = updateBullets(deltaTime, asteroids);
+	return points;
 }
 
-void Player::updateBullets(float deltaTime, std::vector<Asteroid>& asteroids) {
+int  Player::updateBullets(float deltaTime, std::vector<Asteroid>& asteroids) {
 	std::vector<int> bulletsToRemove;
+	int points = 0;
 	for (auto& bullet : bullets) {
 		if (!bullet.goForward(deltaTime)) {
 			bulletsToRemove.push_back(bullet.getId());
 		}
 		if (bullet.checkBulletCollision(asteroids)) {
+			points++;
 			bulletsToRemove.push_back(bullet.getId());
 		}
 	}
@@ -64,10 +66,10 @@ void Player::updateBullets(float deltaTime, std::vector<Asteroid>& asteroids) {
 			bullets.erase(list_it);
 			bullet_map.erase(it);
 		}
-
 	}
 
 	pruneBullets();
+	return points;
 }
 
 
@@ -98,10 +100,20 @@ std::list<Bullet>& Player::getBullets() {
 	return bullets;
 }
 
+void Player::reset() {
+	shape.setPosition({400, 300});
+	bullets.clear();
+	lives = 3;
+}
+
 bool Player::playerHit() {
 	lives--;
 	if (lives == 0) {
 		return true;
 	}
 	return false;
+}
+
+int Player::getPlayerLives() {
+	return lives;
 }
