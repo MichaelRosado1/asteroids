@@ -3,7 +3,7 @@
 //
 #include "Asteroid.h"
 Asteroid::Asteroid() {
-    float asteroidSize = static_cast<float>(std::rand() % (50 - 30 + 1));
+    float asteroidSize = static_cast<float>(std::rand() % (50));
     shape.setRadius(asteroidSize);
     shape.setPointCount(4);
     shape.setFillColor(sf::Color::Green);
@@ -27,7 +27,7 @@ Asteroid::~Asteroid() {
 void Asteroid::move(float deltaTime) {
     // check if out of bounds
     sf::Vector2f asteroidPosition = shape.getPosition();
-    if (asteroidPosition.x > 800 || asteroidPosition.x < 0 || asteroidPosition.y > 600 || asteroidPosition.y < 0) {
+    if (asteroidPosition.x >= 800 || asteroidPosition.x <= 0 || asteroidPosition.y >= 600 || asteroidPosition.y <= 0) {
        direction = -direction;
     }
     shape.move(direction * asteroidSpeed * deltaTime);

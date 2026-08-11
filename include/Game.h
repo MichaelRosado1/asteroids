@@ -16,7 +16,7 @@ private:
     int score = 0;
     int current_level = 0;
     [[maybe_unused]] int num_asteroids = 5;
-    bool levelComplete = false;
+    bool levelComplete = true;
     bool playerLost = false;
 
 

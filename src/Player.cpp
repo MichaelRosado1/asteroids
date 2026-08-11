@@ -104,6 +104,7 @@ void Player::reset() {
 	shape.setPosition({400, 300});
 	bullets.clear();
 	lives = 3;
+	bullet_map.clear();
 }
 
 bool Player::playerHit() {

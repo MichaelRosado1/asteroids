@@ -64,6 +64,9 @@ void Game::resetGame() {
 	asteroids.clear();
 	score = 0;
 	current_level = 0;
+	num_asteroids = 10;
+	levelComplete = false;
+	playerLost = false;
 }
 
 void Game::update() {
@@ -132,7 +135,7 @@ void Game::render() {
 void Game::updateLevel() {
 	levelComplete = false;
 	current_level++;
-	num_asteroids = num_asteroids + (ASTEROID_MULTIPLIER * num_asteroids * current_level);
+	num_asteroids = num_asteroids + (ASTEROID_MULTIPLIER * num_asteroids);
 }
 
 void Game::startLevel() {
