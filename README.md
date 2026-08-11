@@ -22,7 +22,7 @@ cmake --build build
 After building, run the game with:
 
 ```bash
-./bin/asteroids
+./build/bin/asteroids
 ```
 
 ## Built With
